@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < n; i++) {
         pid_t pid = fork();
-        if (pid == 0) {  // Child process
+        if (pid == 0) {
             close(fd[i][0]);
             int devNull = open("/dev/null", O_WRONLY);
             dup2(devNull, STDOUT_FILENO);
@@ -33,10 +33,9 @@ int main(int argc, char *argv[]) {
 
             struct timespec start, end;
             clock_gettime(CLOCK_MONOTONIC, &start);
-
-            // Loop to execute command multiple times
+            
             for (int j = 0; j < 10; j++) {
-                system(argv[2]);  // Using system to execute command repeatedly
+                system(argv[2]);
             }
 
             clock_gettime(CLOCK_MONOTONIC, &end);
@@ -46,7 +45,7 @@ int main(int argc, char *argv[]) {
             close(fd[i][1]);
             exit(0);
         }
-        close(fd[i][1]);  // Parent closes the write end
+        close(fd[i][1]);
     }
 
     double times[n], max = 0.0, min = DBL_MAX, sum = 0.0;
